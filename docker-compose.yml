@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+ db:
+   image: mysql:5.7
+   container_name: didardb
+   environment:
+      MYSQL_ROOT_PASSWORD: my_secret_pw_shh
+      MYSQL_DATABASE: didartest_db
+      MYSQL_USER: didaruser
+      MYSQL_PASSWORD: d!dardevpass
+ php:
+   depends_on:
+    - db
+   image: php
+   container_name: didarphp
+   tty: true
+   environment:
+      MYSQL_ROOT_PASSWORD: my_secret_pw_shh
+      MYSQL_DATABASE: didartest_db
+      MYSQL_USER: didaruser
+      MYSQL_PASSWORD: d!dardevpass
+
+ web:
+    image: firesh/nginx-lua:latest
+    ports:
+      - 5000:80
+    volumes:
+      - ./nginx.conf:/nginx/conf/nginx.conf
